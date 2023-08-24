@@ -8,7 +8,7 @@ import MenuElem from "./menu-elem";
 import "./style.scss";
 import UserInfo from "./user-info";
 import { useNavigation } from "../../providers/navigation.provider";
-import useTheme from "../../hooks/useTheme";
+import useTheme from "../../hooks/use-theme";
 
 export default function SideBar() {
   const { selectedTab, setSelectedTab } = useNavigation();

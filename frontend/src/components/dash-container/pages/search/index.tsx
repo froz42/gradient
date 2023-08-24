@@ -7,7 +7,7 @@ import PlaylistDisplay, {
   PlaylistDisplaySkeleton,
 } from "../../../playlists-display";
 import SongsDisplay, { SongsDisplaySkeleton } from "../../../songs-display";
-import useTheme from "../../../../hooks/useTheme";
+import useTheme from "../../../../hooks/use-theme";
 import "./style.scss";
 
 type SearchProps = {

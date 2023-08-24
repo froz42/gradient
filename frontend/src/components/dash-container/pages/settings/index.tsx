@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import useTheme from "../../../../hooks/useTheme";
+import useTheme from "../../../../hooks/use-theme";
 import { Theme, useSettings } from "../../../../providers/settings.provider";
 import ToggleSwitch from "../../../atoms/toggle-switch";
 import "./style.scss";

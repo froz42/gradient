@@ -18,7 +18,7 @@ import { useNavigation } from "../../../../../providers/navigation.provider";
 import SelectedTab from "../../../../../types/selected-tab.type";
 import useIsCurrentSong from "../../../../../hooks/use-is-current-song";
 import PlayingIndicator from "../../../../atoms/playing-indicator";
-import useTheme from "../../../../../hooks/useTheme";
+import useTheme from "../../../../../hooks/use-theme";
 
 export type QueueElemProps = {
   song: Song;

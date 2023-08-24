@@ -17,7 +17,7 @@ import SelectedTab from "../../../../types/selected-tab.type";
 import { usePlayer } from "../../../../providers/player.provider";
 import { useContextMenu } from "../../../../providers/context-menu.provider";
 import { MenuBuilder, MenuItemBuilder } from "../../../../utils/menu-builder";
-import useTheme from "../../../../hooks/useTheme";
+import useTheme from "../../../../hooks/use-theme";
 import LoadingPlaceholder from "../../../atoms/loading-placeholder";
 
 function PlaylistPageSkeleton() {

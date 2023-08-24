@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import useMe from "../../../hooks/useMe";
+import useMe from "../../../hooks/use-me";
 import { DiscordUrl } from "../../../utils/discord-url";
 import "./style.scss";
-import useTheme from "../../../hooks/useTheme";
+import useTheme from "../../../hooks/use-theme";
 
 export default function GuildDisplay() {
   const { me } = useMe();

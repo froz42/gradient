@@ -9,7 +9,7 @@ import { useCallback } from "react";
 import { AudioPlayerStatus } from "../../../gql/graphql";
 import { usePlayer } from "../../../providers/player.provider";
 import "./style.scss";
-import useTheme from "../../../hooks/useTheme";
+import useTheme from "../../../hooks/use-theme";
 
 export default function ControlButtons() {
   const { player, pause, resume, skip, back } = usePlayer();

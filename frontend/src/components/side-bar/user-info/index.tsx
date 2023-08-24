@@ -1,10 +1,10 @@
 import { useCallback, useMemo } from "react";
 import { DiscordUrl } from "../../../utils/discord-url";
-import useMe from "../../../hooks/useMe";
+import useMe from "../../../hooks/use-me";
 import "./style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
-import useTheme from "../../../hooks/useTheme";
+import useTheme from "../../../hooks/use-theme";
 import { useNavigation } from "../../../providers/navigation.provider";
 import SelectedTab from "../../../types/selected-tab.type";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import AskLogin from "./pages/AskLogin";
+import AskLogin from "./pages/ask-login";
 import LoginToken from "./utils/login-token";
 import { ContextMenuProvider } from "./providers/context-menu.provider";
 import { NavigationProvider } from "./providers/navigation.provider";

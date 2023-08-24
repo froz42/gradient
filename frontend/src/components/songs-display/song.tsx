@@ -13,7 +13,7 @@ import { MenuBuilder, MenuItemBuilder } from "../../utils/menu-builder";
 import { useNavigation } from "../../providers/navigation.provider";
 import SelectedTab from "../../types/selected-tab.type";
 import LoadingPlaceholder from "../atoms/loading-placeholder";
-import useTheme from "../../hooks/useTheme";
+import useTheme from "../../hooks/use-theme";
 
 type SongProps = {
   video: Video;

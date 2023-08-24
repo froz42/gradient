@@ -9,7 +9,7 @@ import PlaylistDisplay, {
   PlaylistDisplaySkeleton,
 } from "../../../playlists-display";
 import LoadingPlaceholder from "../../../atoms/loading-placeholder";
-import useTheme from "../../../../hooks/useTheme";
+import useTheme from "../../../../hooks/use-theme";
 
 function ChannelPageSkeleton() {
   const className = useTheme("channel-page");

@@ -3,7 +3,7 @@ import { Song } from "../../../gql/graphql";
 import { useNavigation } from "../../../providers/navigation.provider";
 import "./style.scss";
 import SelectedTab from "../../../types/selected-tab.type";
-import useTheme from "../../../hooks/useTheme";
+import useTheme from "../../../hooks/use-theme";
 
 export type PlayingSongProps = {
   song?: Song;
@@ -34,7 +34,7 @@ export default function PlayingSong({ song, className }: PlayingSongProps) {
       <div className="thumbnail">
         <img src={thumbnail} alt={title} />
       </div>
-      <div>
+      <div className="info">
         <p className="title">{title}</p>
         <p className="artist" onClick={handleOnClick}>
           {authorName}

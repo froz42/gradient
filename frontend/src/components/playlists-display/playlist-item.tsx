@@ -5,7 +5,7 @@ import LoadingPlaceholder from "../atoms/loading-placeholder";
 import { useNavigation } from "../../providers/navigation.provider";
 import { useCallback } from "react";
 import SelectedTab from "../../types/selected-tab.type";
-import useTheme from "../../hooks/useTheme";
+import useTheme from "../../hooks/use-theme";
 import { usePlayer } from "../../providers/player.provider";
 
 type PlaylistProps = {

@@ -3,7 +3,7 @@ import { AudioPlayerStatus } from "../../../gql/graphql";
 import { usePlayer } from "../../../providers/player.provider";
 import getFormattedTime from "../../../utils/get-formated-time";
 import "./style.scss";
-import useTheme from "../../../hooks/useTheme";
+import useTheme from "../../../hooks/use-theme";
 
 type TimeTrack = {
   timeMs: number;

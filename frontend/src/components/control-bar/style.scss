@@ -8,27 +8,19 @@
   box-shadow: 0 0 2rem rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background: rgba(255, 255, 255, 0.911);
   backdrop-filter: blur(10px);
-  .queue-icon {
-    font-size: 1.3rem;
-    margin: 1rem;
-    margin-right: 2rem;
-    color: #1d1d1d;
-    cursor: pointer;
-    &:hover {
-      color: #695af5;
-    }
-  }
   .icon-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 4rem;
+    width: 2rem;
     height: 2rem;
     border-radius: 10px;
-    margin-right: 0.5rem;
+    margin-right: 0.3rem;
     cursor: pointer;
+    flex-shrink: 0;
 
     .icon {
       font-size: 1rem;

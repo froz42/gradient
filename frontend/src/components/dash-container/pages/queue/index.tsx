@@ -5,7 +5,7 @@ import QueueNext from "./queue-next";
 import "./style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import useTheme from "../../../../hooks/useTheme";
+import useTheme from "../../../../hooks/use-theme";
 
 export default function Queue() {
   const { player, clearQueue } = usePlayer();

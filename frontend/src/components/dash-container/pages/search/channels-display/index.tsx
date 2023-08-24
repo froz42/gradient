@@ -11,7 +11,7 @@ import {
   MenuBuilder,
   MenuItemBuilder,
 } from "../../../../../utils/menu-builder";
-import useTheme from "../../../../../hooks/useTheme";
+import useTheme from "../../../../../hooks/use-theme";
 
 type ChannelsDisplayProps = {
   channels?: Channel[];

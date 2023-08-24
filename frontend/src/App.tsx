@@ -3,7 +3,7 @@ import ControlBar from "./components/control-bar";
 import DashContainer from "./components/dash-container";
 import SearchBar from "./components/search-bar";
 import SideBar from "./components/side-bar";
-import useTheme from "./hooks/useTheme";
+import useTheme from "./hooks/use-theme";
 import ErrorDisplay from "./components/error-display";
 
 function App() {

@@ -14,7 +14,7 @@ import SelectedTab from "../../../../types/selected-tab.type";
 import { MenuBuilder, MenuItemBuilder } from "../../../../utils/menu-builder";
 import useIsCurrentSong from "../../../../hooks/use-is-current-song";
 import PlayingIndicator from "../../../atoms/playing-indicator";
-import useTheme from "../../../../hooks/useTheme";
+import useTheme from "../../../../hooks/use-theme";
 
 type PlaylistItemProps = {
   index: number;

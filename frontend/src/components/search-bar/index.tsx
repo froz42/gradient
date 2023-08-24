@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import SelectedTab from "../../types/selected-tab.type";
 import "./style.scss";
 import { useNavigation } from "../../providers/navigation.provider";
-import useTheme from "../../hooks/useTheme";
+import useTheme from "../../hooks/use-theme";
 
 type SearchBarProps = {
   searchQuery: string;

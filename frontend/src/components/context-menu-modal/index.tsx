@@ -1,4 +1,4 @@
-import useTheme from "../../hooks/useTheme";
+import useTheme from "../../hooks/use-theme";
 import { ContextMenuState } from "../../providers/context-menu.provider";
 import ModalItem from "./modal-item";
 import "./style.scss";
