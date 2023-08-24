@@ -44,7 +44,6 @@ export default function ControlBar() {
     return "icon-container active";
   }, [selectedTab]);
 
-
   return (
     <div className={className}>
       <PlayingSong song={currentSong} />
@@ -54,26 +53,14 @@ export default function ControlBar() {
         totalSecond={currentSong?.duration || 0}
         playerStatus={player?.status}
       />
-      <div className={classNameRepeatIconContainer}>
-        <FontAwesomeIcon
-          icon={faRepeat}
-          className="icon"
-          onClick={toggleLoop}
-        />
+      <div className={classNameRepeatIconContainer} onClick={toggleLoop}>
+        <FontAwesomeIcon icon={faRepeat} className="icon" />
       </div>
-      <div className={classNameInfiniteIconContainer}>
-        <FontAwesomeIcon
-          icon={faInfinity}
-          className="icon"
-          onClick={toggleAutoplay}
-        />
+      <div className={classNameInfiniteIconContainer} onClick={toggleAutoplay}>
+        <FontAwesomeIcon icon={faInfinity} className="icon" />
       </div>
-      <div className={classNameQueueIconContainer}>
-        <FontAwesomeIcon
-          icon={faBarsStaggered}
-          className="icon"
-          onClick={handleQueueClick}
-        />
+      <div className={classNameQueueIconContainer} onClick={handleQueueClick}>
+        <FontAwesomeIcon icon={faBarsStaggered} className="icon" />
       </div>
     </div>
   );
