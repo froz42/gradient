@@ -24,17 +24,19 @@ import throwExpression from 'src/utils/throw-expression';
 
 type ChannelQueue = {
   songIdIndex: number;
-  channel: VoiceBasedChannel;
   queue: Song[];
   currentQueueIndex: number;
-  player?: AudioPlayer;
-  connection?: VoiceConnection;
   seekTime?: number;
   startedAt?: number;
   nextAutoPlay?: Song & {
     fromVideoId: string;
   };
   loop?: boolean;
+  managedPlayer?: {
+    player: AudioPlayer;
+    connection: VoiceConnection;
+    channel: VoiceBasedChannel;
+  };
 };
 
 const PLAYER_OPTIONS = {};
@@ -48,8 +50,17 @@ export class DiscordPlayerService {
   // Guild ID -> ChannelQueue
   private readonly queue: Map<string, ChannelQueue> = new Map();
 
-  private initPlayer(queue: ChannelQueue) {
-    const { channel } = queue;
+  private async initPlayer(user: UserPayload, queue: ChannelQueue) {
+    const channel = await this.channelSearchService.searchChannel(
+      user.guildId,
+      user.id,
+    );
+    if (!channel) {
+      throw new HttpException(
+        'You must be in a voice channel to use this command',
+        400,
+      );
+    }
     const player = createAudioPlayer();
     const connection = joinVoiceChannel({
       channelId: channel.id,
@@ -62,20 +73,22 @@ export class DiscordPlayerService {
         this.playNext(channel.guild.id);
       } else this.sendUpdate(channel.guild.id);
     });
-    queue.player = player;
-    queue.connection = connection;
+    queue.managedPlayer = {
+      player,
+      connection,
+      channel,
+    };
     return player;
   }
 
   private sendUpdate(guildId: string) {
     const queue = this.queue.get(guildId);
+    if (!queue) return;
+    if (queue.seekTime) return; // do not send update if the player is seeking
     if (
-      !queue ||
-      queue.seekTime ||
-      queue.player?.state.status === AudioPlayerStatus.Buffering
-    ) {
+      queue.managedPlayer?.player.state.status === AudioPlayerStatus.Buffering
+    )
       return;
-    }
     const discordPlayer = this.getDiscordPlayer(guildId);
     const payload: DiscordPlayerSubscriptionPayload = {
       discordPlayer,
@@ -90,6 +103,17 @@ export class DiscordPlayerService {
       return '0';
     }
     return (queue.songIdIndex++).toString();
+  }
+
+  private async playResource(url: string, player: AudioPlayer, seek?: number) {
+    const stream = await play.stream(url, {
+      ...PLAYER_OPTIONS,
+      seek,
+    });
+    const resource = createAudioResource(stream.stream, {
+      inputType: stream.type,
+    });
+    player.play(resource);
   }
 
   /**
@@ -110,45 +134,28 @@ export class DiscordPlayerService {
       preloaded ||
       videoInfoToSong(id, await ytdl.getBasicInfo(url), userPayload);
     if (!queue) {
-      const channel = await this.channelSearchService.searchChannel(
-        userPayload.guildId,
-        userPayload.id,
-      );
-      if (!channel) {
-        throw new HttpException(
-          'You must be in a voice channel to use this command',
-          400,
-        );
-      }
       const newQueue: ChannelQueue = {
         songIdIndex: 1,
-        channel,
         queue: [songInfo],
         currentQueueIndex: 0,
       };
-      this.initPlayer(newQueue);
+      const player = await this.initPlayer(userPayload, newQueue);
       this.queue.set(userPayload.guildId, newQueue);
-      const stream = await play.stream(songInfo.url, PLAYER_OPTIONS);
-      const resource = createAudioResource(stream.stream, {
-        inputType: stream.type,
-      });
-      newQueue.player?.play(resource);
+      // it's safe to assume that the player is defined since we just initialized it in the previous line
+      this.playResource(songInfo.url, player);
     } else {
       queue.queue.splice(queue.currentQueueIndex + 1, 0, songInfo);
       queue.seekTime = undefined;
       queue.startedAt = undefined;
-      if (!queue.player) {
-        const player = this.initPlayer(queue);
-        const stream = await play.stream(songInfo.url, PLAYER_OPTIONS);
-        const resource = createAudioResource(stream.stream, {
-          inputType: stream.type,
-        });
-        player.play(resource);
+      if (!queue.managedPlayer) {
+        const player = await this.initPlayer(userPayload, queue);
+        this.playResource(songInfo.url, player);
       } else {
-        if (queue.player.state.status === AudioPlayerStatus.Paused) {
-          queue.player.unpause();
+        const player = queue.managedPlayer.player;
+        if (player.state.status === AudioPlayerStatus.Paused) {
+          player.unpause();
         }
-        queue.player.stop();
+        player.stop();
       }
     }
   }
@@ -159,7 +166,7 @@ export class DiscordPlayerService {
     preloaded?: Song,
   ) {
     const queue = this.queue.get(userPayload.guildId);
-    if (!queue || !queue.player) {
+    if (!queue || !queue.managedPlayer) {
       this.playSong(userPayload, url);
       return;
     }
@@ -183,7 +190,7 @@ export class DiscordPlayerService {
     preloaded?: Song,
   ) {
     const queue = this.queue.get(userPayload.guildId);
-    if (!queue || !queue.player) {
+    if (!queue || !queue.managedPlayer) {
       this.playSong(userPayload, url);
       return;
     }
@@ -201,27 +208,25 @@ export class DiscordPlayerService {
 
   private async playCurrentIndex(queue: ChannelQueue) {
     const nextSong = queue.queue[queue.currentQueueIndex] || queue.nextAutoPlay;
-    if (!nextSong) {
-      queue.player?.stop();
-      queue.connection?.destroy();
-      queue.player?.removeAllListeners();
-      queue.player = undefined;
-      queue.connection = undefined;
+    const managedPlayer = queue.managedPlayer;
+    if (!nextSong && managedPlayer) {
+      managedPlayer.player.stop();
+      managedPlayer.player.removeAllListeners();
+      managedPlayer.connection.destroy();
+      queue.managedPlayer = undefined;
       return;
     }
-    const stream = await play.stream(nextSong.url, {
-      ...PLAYER_OPTIONS,
-      seek: queue.seekTime,
-    });
+    if (!queue.managedPlayer) {
+      throw new Error('No managed player');
+    }
+    await this.playResource(
+      nextSong.url,
+      // it's safe to assume that the player is defined since we just initialized it in the previous line
+      queue.managedPlayer.player as AudioPlayer,
+      queue.seekTime,
+    );
     queue.startedAt = queue.seekTime || 0;
     queue.seekTime = undefined;
-    const resource = createAudioResource(stream.stream, {
-      inputType: stream.type,
-    });
-    if (!queue.player) {
-      this.initPlayer(queue);
-    }
-    queue.player?.play(resource);
   }
 
   private playNext(guildId: string) {
@@ -237,20 +242,20 @@ export class DiscordPlayerService {
     }
     this.playCurrentIndex(queue);
     this.regenerateAutoPlay(guildId);
-    this.sendUpdate(queue.channel.guild.id);
+    this.sendUpdate(guildId);
   }
 
   public skip(guildId: string) {
     const queue = this.queue.get(guildId);
-    if (!queue || !queue.player) {
+    if (!queue || !queue.managedPlayer) {
       return;
     }
-    queue.player?.stop();
+    queue.managedPlayer.player.stop();
   }
 
   public seek(guildId: string, seconds: number) {
     const queue = this.queue.get(guildId);
-    if (!queue || !queue.player) {
+    if (!queue || !queue.managedPlayer) {
       return;
     }
     // check if seconds is valid
@@ -262,7 +267,7 @@ export class DiscordPlayerService {
       return;
     }
     queue.seekTime = seconds;
-    queue.player?.stop();
+    queue.managedPlayer.player.stop();
   }
 
   public back(guildId: string) {
@@ -282,7 +287,7 @@ export class DiscordPlayerService {
     if (!queue) {
       return;
     }
-    queue.player?.pause();
+    queue.managedPlayer?.player.pause();
   }
 
   public resume(guildId: string) {
@@ -290,18 +295,18 @@ export class DiscordPlayerService {
     if (!queue) {
       return;
     }
-    queue.player?.unpause();
+    queue.managedPlayer?.player.unpause();
   }
 
   private getPlaybackDuration(queue: ChannelQueue) {
-    if (!queue.player) {
+    if (!queue.managedPlayer) {
       return 0;
     }
-    if (queue.player.state.status === AudioPlayerStatus.Idle) {
+    if (queue.managedPlayer.player.state.status === AudioPlayerStatus.Idle) {
       return 0;
     }
     return (
-      queue.player.state.resource.playbackDuration +
+      queue.managedPlayer.player.state.resource.playbackDuration +
       (queue.startedAt || 0) * 1000
     );
   }
@@ -322,7 +327,8 @@ export class DiscordPlayerService {
       playbackDuration: Math.round(playbackDuration / 1000),
       currentQueueIndex,
       queue: queue.queue,
-      status: queue.player?.state.status || AudioPlayerStatus.Idle,
+      status:
+        queue.managedPlayer?.player.state.status || AudioPlayerStatus.Idle,
       nextAutoPlay: queue.nextAutoPlay,
       isLoopEnabled: queue.loop,
     };
