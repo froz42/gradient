@@ -33,4 +33,22 @@ export class ChannelSearchService {
     });
     return (channel as VoiceBasedChannel) || null;
   }
+
+  async isUserInVoiceChannel(guildId: string) {
+    const guild = await this.client.guilds.fetch(guildId);
+    if (!guild) {
+      return false;
+    }
+
+    const channels = await guild.channels.fetch();
+
+    const channel = channels.find((channel) => {
+      if (!channel) return false;
+      if (channel.type !== ChannelType.GuildVoice) return false;
+      const voiceChannel = channel as VoiceBasedChannel;
+      if (voiceChannel.members.size === 0) return false;
+      return true;
+    });
+    return !!channel;
+  }
 }

@@ -1,4 +1,4 @@
-import { HttpException, Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable, Logger } from '@nestjs/common';
 import { VoiceBasedChannel } from 'discord.js';
 import play from 'play-dl';
 import {
@@ -503,5 +503,30 @@ export class DiscordPlayerService {
       queue.nextAutoPlay = undefined;
     }
     this.sendUpdate(guildId);
+  }
+
+  public async handleVoiceChannelLeave(channel: VoiceBasedChannel) {
+    if (channel.members.filter((member) => !member.user.bot).size > 0) return;
+    const queue = this.queue.get(channel.guild.id);
+    if (!queue) return;
+    if (queue.managedPlayer?.channel.id === channel.id) {
+      Logger.log(
+        `Stopping player because no user in voice channel ${channel.id}`,
+        this.constructor.name,
+      );
+      queue.managedPlayer.player.stop();
+      queue.managedPlayer.player.removeAllListeners();
+      queue.managedPlayer.connection.destroy();
+      queue.managedPlayer = undefined;
+    }
+
+    const isAUserInAVoiceChannel =
+      await this.channelSearchService.isUserInVoiceChannel(channel.guild.id);
+    if (isAUserInAVoiceChannel) return;
+    Logger.log(
+      'No user in a voice channel, clearing queue',
+      this.constructor.name,
+    );
+    this.queue.delete(channel.guild.id);
   }
 }

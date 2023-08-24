@@ -4,6 +4,7 @@ import { DiscordPlayerCommand } from './discord-player.command';
 import { DiscordPlayerResolver } from './discord-player.resolver';
 import { DiscordPlayerService } from './discord-player.service';
 import { ChannelSearchModule } from 'src/channel-search/channel-search.module';
+import { DiscordPlayerEvents } from './discord-player.events';
 
 @Module({
   imports: [PubSubModule, ChannelSearchModule],
@@ -11,6 +12,7 @@ import { ChannelSearchModule } from 'src/channel-search/channel-search.module';
     DiscordPlayerService,
     DiscordPlayerCommand,
     DiscordPlayerResolver,
+    DiscordPlayerEvents,
   ],
   exports: [DiscordPlayerService],
 })
