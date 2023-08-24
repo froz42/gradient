@@ -1,0 +1,36 @@
+.control-buttons {
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+    color: #7d7d7d;
+    .play-round {
+        position: relative;
+        background-color: #695af5;
+        display: block;
+        color: #fff;
+        border-radius: 50%;
+        width: 2.5rem;
+        height: 2.5rem;
+        cursor: pointer;
+        margin: 0.7rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+            background-color: #5a4af5;
+        }
+    }
+    .control-icon {
+        cursor: pointer;
+        &:hover {
+            color: #343434;
+        }
+    }
+    &.dark {
+        .control-icon {
+            color: #e4e4e4;
+        }
+    }
+}

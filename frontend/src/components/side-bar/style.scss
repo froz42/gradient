@@ -1,0 +1,16 @@
+.sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 4rem;
+    width: 15rem;
+    // shadow only on the right side
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    &.dark {
+        background-color: #121212;
+        box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.323);
+    }
+}

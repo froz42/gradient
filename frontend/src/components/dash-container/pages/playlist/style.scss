@@ -1,0 +1,239 @@
+.playlist-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .background {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: fit-content;
+    .image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .filter {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.795);
+    }
+  }
+  .top-infos {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: fit-content;
+    margin-top: 5rem;
+    padding: 1rem;
+    .thumbnail {
+      position: relative;
+      width: 15rem;
+      height: 15rem;
+      margin-right: 2rem;
+      object-fit: cover;
+      border-radius: 0.5rem;
+    }
+    .infos {
+      .name {
+        width: 30rem;
+        font-size: 2rem;
+        font-weight: 600;
+        color: #0f0f0f;
+        margin-bottom: 0;
+      }
+      .owner {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #0f0f0f;
+        margin: 0.5rem 0;
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      .description {
+        font-size: 1rem;
+        font-weight: 400;
+        color: #0f0f0f;
+        margin: 0.5rem 0;
+        max-width: 30rem;
+      }
+    }
+  }
+  .content {
+    position: relative;
+    width: 100%;
+    padding: 1rem;
+    .actions {
+      position: relative;
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      margin-left: 1rem;
+      .play-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.8rem;
+        background-color: #5a4af5;
+        color: white;
+        border-radius: 50%;
+        cursor: pointer;
+        &:hover {
+          background-color: #3f35a3;
+          transform: scale(1.05);
+        }
+      }
+      .options {
+        position: relative;
+        font-size: 2rem;
+        margin-left: 2rem;
+        color: #3d3d3d;
+        cursor: pointer;
+        &:hover {
+          color: #5a4af5;
+        }
+      }
+    }
+    hr {
+      position: relative;
+      width: calc(100% - 2rem);
+      height: 0.1rem;
+      background-color: #e0e0e0;
+      border: none;
+      margin: 1rem 0;
+    }
+  }
+  &.dark {
+    .background {
+      .filter {
+        background: rgba(0, 0, 0, 0.795);
+      }
+    }
+    .top-infos {
+      .infos {
+        .name {
+          color: #e4e4e4;
+        }
+        .owner {
+          color: #9f9e9e;
+        }
+        .description {
+          color: #9f9e9e;
+        }
+      }
+    }
+    .content {
+      .actions {
+        .options {
+          color: #a6a6a6;
+          &:hover {
+            color: #5a4af5;
+          }
+        }
+      }
+      hr {
+        background-color: #424242;
+      }
+    }
+  }
+}
+
+.playlist-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: calc(100% - 4rem);
+  min-height: 2rem;
+  margin: 0.5rem 0;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-radius: 0.5rem;
+  padding: 0.8rem 0.5rem;
+  img {
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    margin-right: 1rem;
+  }
+  &:hover {
+    background-color: #f5f5f5;
+  }
+  .index {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #292929;
+    margin-right: 0.8rem;
+    width: 2rem;
+    height: 2rem;
+    .playing-indicator {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+  .info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+    .name {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #292929;
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .author {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: #292929;
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .duration {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #292929;
+    margin-right: 1rem;
+  }
+  &.dark {
+    .index {
+      color: #e4e4e4;
+    }
+    .info {
+      .name {
+        color: #e4e4e4;
+      }
+      .author {
+        color: #9f9e9e;
+      }
+    }
+    .duration {
+      color: #9f9e9e;
+    }
+    &:hover {
+      background-color: #1c1c1c;
+    }
+  }
+}

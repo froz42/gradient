@@ -1,0 +1,33 @@
+.settings-page {
+    position: relative;
+    margin-top: 3rem;
+    padding: 1rem;
+    h1 {
+        font-size: 2rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+        color: #3e3e3e;
+    }
+    .option {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        p {
+            margin-left: 1rem;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #3e3e3e;
+        }        
+    }
+    &.dark {
+        h1 {
+            color: #f2f2f2;
+        }
+        .option {
+            p {
+                color: #e4e4e4;
+            }
+        }
+    }
+}

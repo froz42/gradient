@@ -1,0 +1,53 @@
+.playing-song {
+  display: flex;
+  align-items: center;
+  width: 60rem;
+  margin-right: 2rem;
+  height: 100%;
+  .thumbnail {
+    height: 80%;
+    width: 4rem;
+    height: 4rem;
+    position: relative;
+    margin: 1rem;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0.5rem;
+    }
+  }
+  .title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: block;
+    margin: 0;
+    margin-bottom: 0.5rem;
+    color: #393838;
+    height: 100%;
+    display: block;
+    overflow: hidden;
+  }
+  .artist {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #292929;
+    display: block;
+    margin: 0;
+    margin-top: 0.2rem;
+    // on hover
+    &:hover {
+      color: #000;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+  &.dark {
+    .title {
+      color: #fff;
+    }
+    .artist {
+      color: #e4e4e4;
+    }
+  }
+}

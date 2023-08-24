@@ -1,0 +1,29 @@
+.loading-placeholder {
+    background-color: #ececec;
+    // skeleton animation
+    animation: loading 1s ease-in-out infinite alternate;
+    cursor: default !important;
+
+    @keyframes loading {
+        0% {
+            background-color: #ececec;
+        }
+        100% {
+            background-color: #f5f5f5;
+        }
+    }
+
+    @keyframes loading-dark {
+        0% {
+            background-color: #1c1c1c;
+        }
+        100% {
+            background-color: #121212;
+        }
+    }
+
+    &.dark {
+        background-color: #1c1c1c;
+        animation: loading-dark 1s ease-in-out infinite alternate !important;
+    }
+}

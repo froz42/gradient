@@ -1,0 +1,36 @@
+.queue {
+    margin-top: 3rem;
+    padding: 1rem;
+    width: 100%;
+    h2 {
+        margin-top: 2rem;
+    }
+    color: #292929;
+    overflow-y: auto;
+    .up-next {
+        position: relative;
+        width: 70%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .clear-queue {
+            font-size: 1.2rem;
+            color: #292929;
+            cursor: pointer;
+            &:hover {
+                color: #5a4af5;
+            }
+        }
+    }
+    &.dark {
+        color: #e4e4e4;
+        .up-next {
+            .clear-queue {
+                color: #e4e4e4;
+                &:hover {
+                    color: #5a4af5;
+                }
+            }
+        }
+    }
+}

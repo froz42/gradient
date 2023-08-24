@@ -1,0 +1,57 @@
+// <div className="search-bar">
+// <input type="text" placeholder="Search..." value="aaa" />
+// <FontAwesomeIcon icon={faSearch} className="search-icon" />
+// </div>
+
+.search-bar {
+  position: absolute;
+  top: 1.5rem;
+  left: 17rem;
+  width: 20rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+  background: rgba(255, 255, 255, 0.733);
+  backdrop-filter: blur(10px);
+  &:hover {
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
+  }
+  input {
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem 1rem;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1f1f1f;
+    background-color: transparent;
+    &::placeholder {
+      color: #313131;
+    }
+  }
+  .search-icon {
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    color: #dbdbdb;
+  }
+
+  &.dark {
+    background: rgba(29, 29, 29, 0.733);
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
+    .search-icon {
+      color: #d3d3d3;
+    }
+    input {
+      color: #e4e4e4;
+      &::placeholder {
+        color: #e9e9e9;
+      }
+    }
+  }
+}

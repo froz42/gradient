@@ -1,0 +1,53 @@
+.user-info {
+    position: absolute;
+    bottom: 1rem;
+    width: 12rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 0.5rem;
+    margin: 1rem;
+    .group-1 {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    img {
+        margin-right: 1rem;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+    }
+    p {
+        font-size: 1rem;
+        font-weight: 400;
+        color: #424242;
+    }
+    .gear-icon {
+        font-size: 1.3rem;
+        color: #4d4d4d;
+        margin-right: 0.3rem;
+        cursor: pointer;
+
+        &:hover {
+            color: #000;
+        }
+    }
+    &.dark {
+        background: #151515;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        .gear-icon {
+            color: #9f9e9e;
+            &:hover {
+                color: #ededed;
+            }
+        }
+        p {
+            color: #e4e4e4;
+        }
+    }
+}

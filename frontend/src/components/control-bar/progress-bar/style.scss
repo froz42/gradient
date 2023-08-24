@@ -1,0 +1,72 @@
+.progress-bar {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin: 1rem;
+  .slider-container {
+    position: relative;
+    width: 100%;
+    margin: 1rem;
+    height: 3px;
+    background: #dcdcdc;
+    border-radius: 10px;
+    .progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background: #5a4af5;
+        border-radius: 10px;
+    }
+    .slider {
+      position: absolute;
+      margin: 0;
+      margin-top: -7px;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      background: transparent;
+      outline: none;
+      &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 0.8rem;
+        height: 0.8rem;
+        background: #5a4af5;
+        cursor: pointer;
+        border-radius: 50%;
+      }
+      &::-moz-range-thumb {
+        width: 0.8rem;
+        height: 0.8rem;
+        background: #5a4af5;
+        cursor: pointer;
+        border-radius: 50%;
+      }
+    }
+  }
+  .time {
+    font-size: 0.9rem;
+    color: #747474;
+  }
+  &.dark {
+    .slider-container {
+      background: #121212;
+      .progress {
+        background: #695af5;
+      }
+      .slider {
+        &::-webkit-slider-thumb {
+          background: #695af5;
+        }
+        &::-moz-range-thumb {
+          background: #695af5;
+        }
+      }
+    }
+    .time {
+      color: #c6c6c6;
+    }
+  }
+}

@@ -1,0 +1,14 @@
+.dash-container {
+    position: absolute;
+    top: 0rem;
+    left: 15rem;
+    width: calc(100% - 15rem);
+    height: calc(100% - 0rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    .dummy-empty {
+        position: relative;
+        width: 100%;
+        height: 5rem;
+    }
+}

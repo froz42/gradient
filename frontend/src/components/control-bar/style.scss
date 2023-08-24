@@ -1,0 +1,69 @@
+.control-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5rem;
+  // soft shadow
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.911);
+  backdrop-filter: blur(10px);
+  .queue-icon {
+    font-size: 1.3rem;
+    margin: 1rem;
+    margin-right: 2rem;
+    color: #1d1d1d;
+    cursor: pointer;
+    &:hover {
+      color: #695af5;
+    }
+  }
+  .icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 2rem;
+    border-radius: 10px;
+    margin-right: 0.5rem;
+    cursor: pointer;
+
+    .icon {
+      font-size: 1rem;
+      color: #1d1d1d;
+      &:hover {
+        color: #695af5;
+      }
+    }
+    &.active {
+      background: #695af5;
+      .icon {
+        color: #fff;
+      }
+      &:hover {
+        background: #6554fa;
+        .icon {
+          color: #dbdbdb;
+        }
+      }
+    }
+  }
+  &.dark {
+    background: rgba(29, 29, 29, 0.911);
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.323);
+    .queue-icon {
+      color: #9f9e9e;
+      &:hover {
+        color: #695af5;
+      }
+    }
+    .icon {
+      color: #9f9e9e;
+      &:hover {
+        color: #695af5;
+      }
+    }
+  }
+}

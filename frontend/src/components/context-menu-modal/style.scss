@@ -1,0 +1,49 @@
+.context-menu-modal {
+  position: fixed;
+  background-color: #ffffff;
+  z-index: 100;
+  padding: 0.1rem;
+  border-radius: 0.3rem;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
+  .modal-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0.3rem;
+    cursor: pointer;
+    justify-content: space-between;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 0.2rem;
+    margin: 0.15rem;
+    &:hover {
+      background-color: #5b4af5d3;
+      color: #ffffff;
+    }
+    color: #292929;
+    font-size: 0.9rem;
+    font-weight: 400;
+    .icon {
+      margin-left: 1rem;
+    }
+  }
+  hr {
+    margin: 0;
+    border: 1px solid #e4e3e3;
+  }
+  &.dark {
+    background-color: #151515;
+    .modal-item {
+      color: #e4e4e4;
+      &:hover {
+        background-color: #5b4af5d3;
+        color: #ffffff;
+      }
+    }
+    hr {
+      border: 1px solid #292929;
+    }
+  }
+}

@@ -1,0 +1,52 @@
+.menu-elem {
+    position: relative;
+    width: 75%;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    height: 60px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 0.7rem;
+    // round corners to right
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: #3e3e3e;
+
+    .icon {
+        margin-right: 1rem;
+        color: #d4d4d4;
+    }
+
+    .text {
+        font-size: 1rem;
+        font-weight: 400;
+    }
+
+    &:hover {
+        background-color: #f5f5f5;
+    }
+
+    &.selected {
+        background-color: #695af5;
+        color: #fff;
+        box-shadow: 0 3px 10px  #695af5c8;
+        cursor: default;
+    }
+
+    &.dark {
+        .icon {
+            color: #f2f2f2;
+        }
+        .text {
+            color: #f2f2f2;
+        }
+        &:hover {
+            background-color: #222222;
+        }
+        &.selected {
+            color: #fff;
+            background-color: #695af5;
+        }
+    }
+}
