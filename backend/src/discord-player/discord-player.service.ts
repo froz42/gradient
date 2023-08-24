@@ -39,7 +39,13 @@ type ChannelQueue = {
   };
 };
 
-const PLAYER_OPTIONS = {};
+const PLAYER_OPTIONS: ytdl.downloadOptions = {
+  filter: 'audioonly',
+  quality: 'lowestaudio',
+  highWaterMark: 1 << 62,
+  liveBuffer: 1 << 62,
+  dlChunkSize: 0,
+};
 
 @Injectable()
 export class DiscordPlayerService {
@@ -105,14 +111,21 @@ export class DiscordPlayerService {
     return (queue.songIdIndex++).toString();
   }
 
+  private async getResource(url: string, seek?: number) {
+    if (seek) {
+      const stream = await play.stream(url, {
+        seek,
+      });
+      return createAudioResource(stream.stream, {
+        inputType: stream.type,
+      });
+    }
+    const stream = ytdl(url, PLAYER_OPTIONS);
+    return createAudioResource(stream);
+  }
+
   private async playResource(url: string, player: AudioPlayer, seek?: number) {
-    const stream = await play.stream(url, {
-      ...PLAYER_OPTIONS,
-      seek,
-    });
-    const resource = createAudioResource(stream.stream, {
-      inputType: stream.type,
-    });
+    const resource = await this.getResource(url, seek);
     player.play(resource);
   }
 
