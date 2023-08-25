@@ -22,8 +22,11 @@ import { PlaylistModule } from './playlist/playlist.module';
       playground: true,
       autoSchemaFile: true,
       subscriptions: {
-        'graphql-ws': true,
+        'graphql-ws': {
+          path: '/subscriptions',
+        },
       },
+      introspection: true,
       context: (context: any) => {
         if (context?.extra?.request) {
           return {

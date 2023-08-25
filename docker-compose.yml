@@ -1,0 +1,50 @@
+version: '3.3'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3000
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - JWT_SECRET=${JWT_SECRET}
+      - FRONTEND_URL=https://${DOMAIN_NAME}
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+    networks:
+      - gradient-network
+    container_name: backend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_HTTP_BACKEND_ENDPOINT=https://${DOMAIN_NAME}/graphql
+        - VITE_WS_BACKEND_ENDPOINT=wss://${DOMAIN_NAME}/subscriptions
+    networks:
+      - gradient-network
+    container_name: frontend
+  proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - backend
+    environment:
+      - EMAIL=${EMAIL}
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - BACKEND_NAME=backend
+      - BACKEND_PORT=3000
+      - FRONTEND_NAME=frontend
+      - FRONTEND_PORT=80
+    volumes:
+      - ./certs:/etc/letsencrypt
+    networks:
+      - gradient-network
+
+networks:
+  gradient-network:
+    driver: bridge
+

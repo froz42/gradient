@@ -32,10 +32,13 @@ export default function PlaylistItem({ playlist }: PlaylistProps) {
   const className = useTheme("playlist");
   return (
     <div className={className} onClick={onClick}>
-      <img src={playlist.firstVideo?.bestThumbnail?.url} alt="thumbnail" />
+      <img
+        src={playlist.firstVideo?.bestThumbnail?.url || ""}
+        alt="thumbnail"
+      />
       <div className="info">
         <p className="name">{playlist.title}</p>
-        <p className="owner">By {playlist.owner.name}</p>
+        <p className="owner">By {playlist.owner?.name || ""}</p>
       </div>
       <div className="play-button">
         <FontAwesomeIcon

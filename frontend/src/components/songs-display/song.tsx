@@ -24,9 +24,10 @@ export default function Song({ video }: SongProps) {
   const { open } = useContextMenu();
   const { setSelectedTab, setSelectedChannel } = useNavigation();
   const handleOnChannelOpen = useCallback(() => {
+    if (!video.author) return;
     setSelectedChannel(video.author.channelID);
     setSelectedTab(SelectedTab.Channel);
-  }, [setSelectedChannel, video.author.channelID, setSelectedTab]);
+  }, [setSelectedChannel, video.author, setSelectedTab]);
 
   const handleContextMenu = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -82,10 +83,10 @@ export default function Song({ video }: SongProps) {
       onContextMenu={handleContextMenu}
       onClick={handleClick}
     >
-      <img src={video.bestThumbnail.url} alt="thumbnail" />
+      <img src={video.bestThumbnail.url || ""} alt="thumbnail" />
       <div className="info">
         <p className="title">{video.title}</p>
-        <p className="channel">{video.author.name}</p>
+        <p className="channel">{video.author?.name || ""}</p>
       </div>
       <p className="duration">{video.duration}</p>
     </div>

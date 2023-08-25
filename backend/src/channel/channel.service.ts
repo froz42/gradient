@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import throwExpression from 'src/utils/throw-expression';
 import { YoutubeApiClient } from 'src/youtube-api-client/youtube-api-client';
-
-const apiKey = 'AIzaSyBaMlad4Q1lswBOFhirKd1LBA-KcSIcT6A';
 
 @Injectable()
 export class ChannelService {
   private readonly youtubeApiClient: YoutubeApiClient;
 
   constructor() {
-    this.youtubeApiClient = new YoutubeApiClient(apiKey);
+    this.youtubeApiClient = new YoutubeApiClient(
+      process.env.YOUTUBE_API_KEY ??
+        throwExpression('YOUTUBE_API_KEY is not defined'),
+    );
   }
 
   public async getChannel(channelID: string) {

@@ -31,9 +31,10 @@ export default function PlaylistItem({
   const { open } = useContextMenu();
   const { setSelectedTab, setSelectedChannel } = useNavigation();
   const handleOnChannelOpen = useCallback(() => {
+    if (!video.author) return;
     setSelectedChannel(video.author.channelID);
     setSelectedTab(SelectedTab.Channel);
-  }, [setSelectedChannel, video.author.channelID, setSelectedTab]);
+  }, [setSelectedChannel, video.author, setSelectedTab]);
 
   const [isCurrentSong, isCurrentSongPlaying] = useIsCurrentSong(video.id);
 
@@ -101,10 +102,10 @@ export default function PlaylistItem({
           index + 1
         )}
       </div>
-      <img src={video.bestThumbnail?.url} />
+      <img src={video.bestThumbnail?.url || ""} />
       <div className="info">
         <p className="name">{video.title}</p>
-        <p className="author">{video.author.name}</p>
+        <p className="author">{video.author?.name}</p>
       </div>
       <p className="duration">{video.duration}</p>
     </div>
