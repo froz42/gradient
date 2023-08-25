@@ -5,6 +5,9 @@ USER node
 WORKDIR /home/node
 COPY --chown=node package*.json yarn.lock ./
 FROM base-build as install-prod-libs
+
+RUN yarn config set network-timeout 600000 -g
+
 RUN yarn install --frozen-lockfile
 
 FROM install-prod-libs as make-dist
