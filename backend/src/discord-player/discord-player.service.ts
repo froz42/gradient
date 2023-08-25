@@ -104,6 +104,7 @@ export class DiscordPlayerService {
       queue.managedPlayer.player.removeAllListeners();
       queue.managedPlayer.connection.destroy();
       queue.managedPlayer = undefined;
+      this.sendUpdate(channel.guild.id);
     }
 
     const isAUserInAVoiceChannel =
@@ -114,6 +115,7 @@ export class DiscordPlayerService {
       this.constructor.name,
     );
     this.queue.delete(channel.guild.id);
+    this.sendUpdate(channel.guild.id);
   }
 
   /**
