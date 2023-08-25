@@ -7,7 +7,10 @@ export class DiscordPlayerEvents {
   constructor(private readonly discordPlayerService: DiscordPlayerService) {}
 
   @On('voiceChannelLeave')
-  onVoiceChannelLeave(@Context() [, channel]: ContextOf<'voiceChannelLeave'>) {
+  onVoiceChannelLeave(
+    @Context() [user, channel]: ContextOf<'voiceChannelLeave'>,
+  ) {
+    if (user.user.bot) return;
     Logger.log(`User left voice channel ${channel.id}`, this.constructor.name);
     this.discordPlayerService.handleVoiceChannelLeave(channel);
   }

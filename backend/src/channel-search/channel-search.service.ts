@@ -46,8 +46,8 @@ export class ChannelSearchService {
       if (!channel) return false;
       if (channel.type !== ChannelType.GuildVoice) return false;
       const voiceChannel = channel as VoiceBasedChannel;
-      if (voiceChannel.members.size === 0) return false;
-      return true;
+      if (voiceChannel.members.filter((member) => !member.user.bot).size !== 0)
+        return true;
     });
     return !!channel;
   }

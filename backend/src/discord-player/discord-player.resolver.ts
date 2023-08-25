@@ -70,7 +70,7 @@ export class DiscordPlayerResolver {
   @Mutation(() => Boolean)
   @UseGuards(GqlAuthGuard)
   back(@GqlUser() user: UserPayload) {
-    this.discordPlayerService.back(user.guildId);
+    this.discordPlayerService.back(user, user.guildId);
     return true;
   }
 

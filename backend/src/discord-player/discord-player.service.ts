@@ -256,7 +256,7 @@ export class DiscordPlayerService {
     queue.managedPlayer.player.stop();
   }
 
-  public back(guildId: string) {
+  public back(user: UserPayload, guildId: string) {
     const queue = this.queue.get(guildId);
     if (!queue) {
       return;
@@ -265,7 +265,7 @@ export class DiscordPlayerService {
     if (queue.currentQueueIndex < 0) {
       queue.currentQueueIndex = 0;
     }
-    this.playCurrentIndex(queue);
+    this.playCurrentIndex(queue, user);
   }
 
   public pause(guildId: string) {
@@ -374,7 +374,19 @@ export class DiscordPlayerService {
 
   private sendUpdate(guildId: string) {
     const queue = this.queue.get(guildId);
-    if (!queue) return;
+    if (!queue) {
+      const payload: DiscordPlayerSubscriptionPayload = {
+        discordPlayer: {
+          playbackDuration: 0,
+          currentQueueIndex: 0,
+          queue: [],
+          status: AudioPlayerStatus.Idle,
+        },
+        guildId,
+      };
+      this.pubSub.publish('discordPlayer', payload);
+      return;
+    }
     if (queue.seekTime) return; // do not send update if the player is seeking
     if (
       queue.managedPlayer?.player.state.status === AudioPlayerStatus.Buffering
@@ -414,7 +426,7 @@ export class DiscordPlayerService {
     player.play(resource);
   }
 
-  private async playCurrentIndex(queue: ChannelQueue) {
+  private async playCurrentIndex(queue: ChannelQueue, user?: UserPayload) {
     const nextSong = queue.songs[queue.currentQueueIndex] || queue.nextAutoPlay;
     const managedPlayer = queue.managedPlayer;
     if (!nextSong && managedPlayer) {
@@ -425,12 +437,15 @@ export class DiscordPlayerService {
       return;
     }
     if (!queue.managedPlayer) {
-      throw new Error('No managed player');
+      if (!user) {
+        throw new Error('User is undefined and player is not initialized');
+      }
+      await this.initPlayer(user, queue);
     }
     await this.playResource(
       nextSong.url,
       // it's safe to assume that the player is defined since we just initialized it in the previous line
-      queue.managedPlayer.player as AudioPlayer,
+      queue.managedPlayer?.player as AudioPlayer,
       queue.seekTime,
     );
     queue.startedAt = queue.seekTime || 0;
