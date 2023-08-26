@@ -1,5 +1,9 @@
 # Gradient
 
+A discord music bot with a cool dashboard.
+![image](https://github.com/tmatis/gradient/assets/54767855/24a7bb31-7a13-4f27-a8a5-1f267dcfa5d9)
+
+
 ## Setup instructions
 
 ### requirements
