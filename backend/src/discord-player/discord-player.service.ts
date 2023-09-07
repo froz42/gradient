@@ -20,7 +20,6 @@ import videoInfoToSong from 'src/utils/video-info-to-song';
 import { PlaylistPage } from 'src/playlist/models/playlist-page.model';
 import videoToSong from 'src/utils/video-to-song';
 import throwExpression from 'src/utils/throw-expression';
-import { PLAYER_OPTIONS } from './consts/player-options.type';
 import { ChannelQueue } from './types/channel-queue.type';
 @Injectable()
 export class DiscordPlayerService {
@@ -409,16 +408,12 @@ export class DiscordPlayerService {
   }
 
   private async getResource(url: string, seek?: number) {
-    if (seek) {
-      const stream = await play.stream(url, {
-        seek,
-      });
-      return createAudioResource(stream.stream, {
-        inputType: stream.type,
-      });
-    }
-    const stream = ytdl(url, PLAYER_OPTIONS);
-    return createAudioResource(stream);
+    const stream = await play.stream(url, {
+      seek,
+    });
+    return createAudioResource(stream.stream, {
+      inputType: stream.type,
+    });
   }
 
   private async playResource(url: string, player: AudioPlayer, seek?: number) {
