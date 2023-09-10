@@ -15,11 +15,11 @@ export default function UserInfo() {
     return DiscordUrl.getAvatarURL(me.id, me.avatar);
   }, [me]);
 
-  const { setSelectedTab } = useNavigation();
+  const { pushState } = useNavigation();
 
   const handleClick = useCallback(() => {
-    setSelectedTab(SelectedTab.Settings);
-  }, [setSelectedTab]);
+    pushState({ selectedTab: SelectedTab.Settings });
+  }, [pushState]);
 
   const className = useTheme("user-info");
 

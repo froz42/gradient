@@ -13,11 +13,13 @@ type PlaylistProps = {
 };
 
 export default function PlaylistItem({ playlist }: PlaylistProps) {
-  const { setSelectedTab, setSelectedPlaylist } = useNavigation();
+  const { pushState } = useNavigation();
   const onClick = useCallback(() => {
-    setSelectedPlaylist(playlist.playlistID);
-    setSelectedTab(SelectedTab.Playlist);
-  }, [playlist.playlistID, setSelectedPlaylist, setSelectedTab]);
+    pushState({
+      selectedTab: SelectedTab.Playlist,
+      params: new Map([["playlistID", playlist.playlistID]]),
+    })
+  }, [playlist.playlistID, pushState]);
 
   const { playPlaylist } = usePlayer();
 

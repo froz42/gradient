@@ -18,11 +18,13 @@ type ChannelsDisplayProps = {
 };
 
 function ChannelItem({ channel }: { channel: Channel }) {
-  const { setSelectedChannel, setSelectedTab } = useNavigation();
+  const { pushState } = useNavigation();
   const onClick = useCallback(() => {
-    setSelectedChannel(channel.channelID);
-    setSelectedTab(SelectedTab.Channel);
-  }, [channel.channelID, setSelectedChannel, setSelectedTab]);
+    pushState({
+      selectedTab: SelectedTab.Channel,
+      params: new Map([["channelID", channel.channelID]]),
+    })
+  }, [channel.channelID, pushState]);
 
   const { open } = useContextMenu();
   const handleContextMenu = useCallback(

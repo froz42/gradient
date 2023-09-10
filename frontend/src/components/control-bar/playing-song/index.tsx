@@ -11,7 +11,7 @@ export type PlayingSongProps = {
 };
 
 export default function PlayingSong({ song, className }: PlayingSongProps) {
-  const { setSelectedChannel, setSelectedTab } = useNavigation();
+  const { pushState } = useNavigation();
 
   const classNameTheme = useTheme("playing-song");
   const classNamePlayingSong = useMemo(() => {
@@ -20,9 +20,11 @@ export default function PlayingSong({ song, className }: PlayingSongProps) {
 
   const handleOnClick = useCallback(() => {
     if (!song) return;
-    setSelectedChannel(song.authorId);
-    setSelectedTab(SelectedTab.Channel);
-  }, [song, setSelectedChannel, setSelectedTab]);
+    pushState({
+      selectedTab: SelectedTab.Channel,
+      params: new Map([["channelID", song.authorId]]),
+    });
+  }, [song, pushState]);
 
   if (!song) {
     return <div className={classNameTheme} />;

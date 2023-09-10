@@ -9,9 +9,20 @@ import "./style.scss";
 import UserInfo from "./user-info";
 import { useNavigation } from "../../providers/navigation.provider";
 import useTheme from "../../hooks/use-theme";
+import { useCallback } from "react";
 
 export default function SideBar() {
-  const { selectedTab, setSelectedTab } = useNavigation();
+  const {
+    navigationState: { selectedTab },
+    pushState,
+  } = useNavigation();
+
+  const setSelectedTab = useCallback(
+    (tab: SelectedTab) => {
+      pushState({ selectedTab: tab });
+    },
+    [pushState]
+  );
 
   const className = useTheme("sidebar");
   return (

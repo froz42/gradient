@@ -34,7 +34,9 @@ function ChannelPageSkeleton() {
 }
 
 export default function ChannelPage() {
-  const { selectedChannel } = useNavigation();
+  const {
+    navigationState: { params },
+  } = useNavigation();
   const [channel, setChannel] = useState<ChannelPageType | null>(null);
   const [getChannel] = useLazyQuery<{ getChannel: ChannelPageType }>(
     GET_CHANNEL_QUERY
@@ -43,6 +45,7 @@ export default function ChannelPage() {
 
   useEffect(() => {
     const fetchData = async () => {
+      const selectedChannel = params.get("channelID");
       if (selectedChannel) {
         setIsLoading(true);
         const channel = await getChannel({
@@ -53,7 +56,7 @@ export default function ChannelPage() {
       }
     };
     fetchData();
-  }, [selectedChannel, getChannel]);
+  }, [getChannel, params]);
 
   const { subscriberCount, viewCount, videoCount } = useMemo(() => {
     const formatter = Intl.NumberFormat(undefined, { notation: "compact" });
@@ -72,7 +75,7 @@ export default function ChannelPage() {
 
   const className = useTheme("channel-page");
 
-  if (isLoading || !selectedChannel || !channel) return <ChannelPageSkeleton />;
+  if (isLoading || !channel) return <ChannelPageSkeleton />;
   return (
     <div className={className}>
       <img className="banner" src={channel.banner} />

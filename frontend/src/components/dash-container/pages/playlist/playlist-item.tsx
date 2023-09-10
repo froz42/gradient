@@ -29,12 +29,14 @@ export default function PlaylistItem({
 }: PlaylistItemProps) {
   const { play, queueAddBack, queueAddFront, playPlaylist } = usePlayer();
   const { open } = useContextMenu();
-  const { setSelectedTab, setSelectedChannel } = useNavigation();
+  const { pushState } = useNavigation();
   const handleOnChannelOpen = useCallback(() => {
     if (!video.author) return;
-    setSelectedChannel(video.author.channelID);
-    setSelectedTab(SelectedTab.Channel);
-  }, [setSelectedChannel, video.author, setSelectedTab]);
+    pushState({
+      selectedTab: SelectedTab.Channel,
+      params: new Map([["channelID", video.author.channelID]]),
+    });
+  }, [video.author, pushState]);
 
   const [isCurrentSong, isCurrentSongPlaying] = useIsCurrentSong(video.id);
 

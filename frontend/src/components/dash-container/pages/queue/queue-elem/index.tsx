@@ -33,12 +33,14 @@ export default function QueueElem({
 }: QueueElemProps) {
   const { queueAddBack, queueAddFront } = usePlayer();
   const { open } = useContextMenu();
-  const { setSelectedTab, setSelectedChannel } = useNavigation();
+  const { pushState } = useNavigation();
 
   const handleOnChannelOpen = useCallback(() => {
-    setSelectedChannel(song.authorId);
-    setSelectedTab(SelectedTab.Channel);
-  }, [song.authorId, setSelectedChannel, setSelectedTab]);
+    pushState({
+      selectedTab: SelectedTab.Channel,
+      params: new Map([["channelID", song.authorId]]),
+    });
+  }, [pushState, song.authorId]);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isCurrentSong, isCurrentSongPlaying] = useIsCurrentSong(song.videoId);
@@ -87,9 +89,11 @@ export default function QueueElem({
   );
 
   const handleChannelClick = useCallback(() => {
-    setSelectedChannel(song.authorId);
-    setSelectedTab(SelectedTab.Channel);
-  }, [song.authorId, setSelectedChannel, setSelectedTab]);
+    pushState({
+      selectedTab: SelectedTab.Channel,
+      params: new Map([["channelID", song.authorId]]),
+    });
+  }, [pushState, song.authorId]);
 
   const { title, authorName, thumbnail, duration } = song;
 

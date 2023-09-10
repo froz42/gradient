@@ -9,7 +9,7 @@ class LoginToken {
         const token = LoginToken.extractTokenFromUrl();
         if (token) {
             localStorage.setItem('token', token);
-            window.history.replaceState({}, document.title, window.location.pathname);
+            window.history.pushState({}, document.title, '/');
             return token;
         }
         return localStorage.getItem('token') || undefined;

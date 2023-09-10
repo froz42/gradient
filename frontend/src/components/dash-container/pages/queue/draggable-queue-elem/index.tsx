@@ -90,11 +90,14 @@ export default function DraggableQueueElem(props: DraggableQueueElemProps) {
 
   const { queueAddBack, queueAddFront, queueRemove } = usePlayer();
   const { open } = useContextMenu();
-  const { setSelectedTab, setSelectedChannel } = useNavigation();
+  const { pushState } = useNavigation();
   const handleOnChannelOpen = useCallback(() => {
-    setSelectedChannel(props.song.authorId);
-    setSelectedTab(SelectedTab.Channel);
-  }, [setSelectedChannel, props.song.authorId, setSelectedTab]);
+    if (!props.song) return;
+    pushState({
+      selectedTab: SelectedTab.Channel,
+      params: new Map([["channelID", props.song.authorId]]),
+    });
+  }, [props.song, pushState]);
 
   const handleContextMenu = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

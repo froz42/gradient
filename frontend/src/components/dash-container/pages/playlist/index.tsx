@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigation } from "../../../../providers/navigation.provider";
 import { PlaylistPage as PlaylistPageType } from "../../../../gql/graphql";
 import "./style.scss";
@@ -50,13 +50,17 @@ function PlaylistPageSkeleton() {
 }
 
 export default function PlaylistPage() {
-  const { selectedPlaylist, setSelectedTab, setSelectedChannel } =
+  const { pushState, navigationState } =
     useNavigation();
   const [playlist, setPlaylist] = useState<PlaylistPageType | null>(null);
   const [getPlaylist] = useLazyQuery<{ getPlaylist: PlaylistPageType }>(
     GET_PLAYLIST_QUERY
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const selectedPlaylist = useMemo(
+    () => navigationState.params.get("playlistID"),
+    [navigationState.params]
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,9 +78,11 @@ export default function PlaylistPage() {
 
   const handleChannelClick = useCallback(() => {
     if (!playlist) return;
-    setSelectedChannel(playlist.author.channelID);
-    setSelectedTab(SelectedTab.Channel);
-  }, [playlist, setSelectedChannel, setSelectedTab]);
+    pushState({
+      selectedTab: SelectedTab.Channel,
+      params: new Map([["channelID", playlist.author.channelID]]),
+    });
+  }, [playlist, pushState]);
 
   const { playPlaylist } = usePlayer();
 

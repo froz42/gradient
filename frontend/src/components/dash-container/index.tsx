@@ -34,11 +34,13 @@ function Dash({
 }
 
 export default function DashContainer({ searchQuery }: DashContainerProps) {
-  const { selectedTab } = useNavigation();
+  const {
+    navigationState: { selectedTab },
+  } = useNavigation();
   return (
     <div className="dash-container">
       <Dash selectedTab={selectedTab} searchQuery={searchQuery} />
-      <div className="dummy-empty" /> 
+      <div className="dummy-empty" />
     </div>
   );
 }

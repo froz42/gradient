@@ -22,12 +22,14 @@ type SongProps = {
 export default function Song({ video }: SongProps) {
   const { play, queueAddBack, queueAddFront } = usePlayer();
   const { open } = useContextMenu();
-  const { setSelectedTab, setSelectedChannel } = useNavigation();
+  const { pushState } = useNavigation();
   const handleOnChannelOpen = useCallback(() => {
     if (!video.author) return;
-    setSelectedChannel(video.author.channelID);
-    setSelectedTab(SelectedTab.Channel);
-  }, [setSelectedChannel, video.author, setSelectedTab]);
+    pushState({
+      selectedTab: SelectedTab.Channel,
+      params: new Map([["channelID", video.author.channelID]]),
+    });
+  }, [video.author, pushState]);
 
   const handleContextMenu = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

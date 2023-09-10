@@ -15,7 +15,7 @@ export default function SearchBar({
   searchQuery,
   setSearchQuery,
 }: SearchBarProps) {
-  const { setSelectedTab } = useNavigation();
+  const { pushState } = useNavigation();
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchQuery(e.target.value);
@@ -23,12 +23,16 @@ export default function SearchBar({
     [setSearchQuery]
   );
 
+  const onClick = useCallback(() => {
+    pushState({ selectedTab: SelectedTab.Search });
+  }, [pushState]);
+
   const className = useTheme("search-bar");
 
   return (
     <div
       className={className}
-      onClick={() => setSelectedTab(SelectedTab.Search)}
+      onClick={onClick}
     >
       <input
         type="text"

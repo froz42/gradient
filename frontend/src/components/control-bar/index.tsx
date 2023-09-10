@@ -16,14 +16,14 @@ import { useSettings } from "../../providers/settings.provider";
 
 export default function ControlBar() {
   const { player, getCurrentSong, toggleAutoplay, toggleLoop } = usePlayer();
-  const { selectedTab, setSelectedTab } = useNavigation();
+  const { navigationState: {selectedTab}, pushState } = useNavigation();
   const { theme } = useSettings();
 
   const currentSong = useMemo(() => getCurrentSong(), [getCurrentSong]);
 
   const handleQueueClick = useCallback(() => {
-    setSelectedTab(SelectedTab.Queue);
-  }, [setSelectedTab]);
+    pushState({ selectedTab: SelectedTab.Queue });
+  }, [pushState]);
 
   const className = useMemo(() => {
     return `control-bar ${theme}`;
