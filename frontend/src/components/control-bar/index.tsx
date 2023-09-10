@@ -1,8 +1,4 @@
-import {
-  faBarsStaggered,
-  faInfinity,
-  faRepeat,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBarsStaggered, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useMemo } from "react";
 import { usePlayer } from "../../providers/player.provider";
@@ -15,8 +11,11 @@ import { useNavigation } from "../../providers/navigation.provider";
 import { useSettings } from "../../providers/settings.provider";
 
 export default function ControlBar() {
-  const { player, getCurrentSong, toggleAutoplay, toggleLoop } = usePlayer();
-  const { navigationState: {selectedTab}, pushState } = useNavigation();
+  const { player, getCurrentSong, toggleLoop } = usePlayer();
+  const {
+    navigationState: { selectedTab },
+    pushState,
+  } = useNavigation();
   const { theme } = useSettings();
 
   const currentSong = useMemo(() => getCurrentSong(), [getCurrentSong]);
@@ -28,11 +27,6 @@ export default function ControlBar() {
   const className = useMemo(() => {
     return `control-bar ${theme}`;
   }, [theme]);
-
-  const classNameInfiniteIconContainer = useMemo(() => {
-    if (!player?.nextAutoPlay) return "icon-container";
-    return "icon-container active";
-  }, [player?.nextAutoPlay]);
 
   const classNameRepeatIconContainer = useMemo(() => {
     if (!player?.isLoopEnabled) return "icon-container";
@@ -55,9 +49,6 @@ export default function ControlBar() {
       />
       <div className={classNameRepeatIconContainer} onClick={toggleLoop}>
         <FontAwesomeIcon icon={faRepeat} className="icon" />
-      </div>
-      <div className={classNameInfiniteIconContainer} onClick={toggleAutoplay}>
-        <FontAwesomeIcon icon={faInfinity} className="icon" />
       </div>
       <div className={classNameQueueIconContainer} onClick={handleQueueClick}>
         <FontAwesomeIcon icon={faBarsStaggered} className="icon" />
