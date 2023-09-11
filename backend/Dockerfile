@@ -1,10 +1,12 @@
 FROM node:20-slim as base-build
+RUN apt-get update && apt-get install -y git
 ENV NODE_ENV build
 USER node
 
 WORKDIR /home/node
 COPY --chown=node package*.json yarn.lock ./
 FROM base-build as install-prod-libs
+
 
 RUN yarn config set network-timeout 600000 -g
 

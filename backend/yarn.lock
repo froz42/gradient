@@ -5558,9 +5558,9 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-"ytdl-core@git+ssh://git@github.com:khlevon/node-ytdl-core.git#v4.11.4-patch.2":
+"ytdl-core@git+https://github.com/khlevon/node-ytdl-core.git#v4.11.4-patch.2":
   version "0.0.0-development"
-  resolved "git+ssh://git@github.com:khlevon/node-ytdl-core.git#87450450caabb91f81afa6e66758bf2f629664a1"
+  resolved "git+https://github.com/khlevon/node-ytdl-core.git#87450450caabb91f81afa6e66758bf2f629664a1"
   dependencies:
     m3u8stream "^0.8.6"
     miniget "^4.2.2"
