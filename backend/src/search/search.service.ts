@@ -7,8 +7,8 @@ import { Channel } from './model/channel.model';
 import { Playlist } from './model/playlist.model';
 import { Mix } from './model/mix.model';
 import getFormattedTime from 'src/utils/get-formated-time';
-import { video_info } from 'play-dl';
 import throwExpression from 'src/utils/throw-expression';
+import ytdl from 'ytdl-core';
 
 type LinkData = {
   videoID?: string;
@@ -44,24 +44,26 @@ export class SearchService {
   }
 
   public async fetchVideo(link: string): Promise<Video> {
-    const info = await video_info(link);
+    const info = await ytdl.getInfo(link);
 
     return {
-      title: info.video_details.title || throwExpression('No video title'),
-      url: info.video_details.url,
-      id: info.video_details.id || throwExpression('No video id'),
-      duration: getFormattedTime(info.video_details.durationInSec * 1000),
-      durationSeconds: info.video_details.durationInSec,
+      title: info.videoDetails.title || throwExpression('No video title'),
+      url: info.videoDetails.video_url,
+      id: info.videoDetails.videoId || throwExpression('No video id'),
+      duration: getFormattedTime(
+        Number(info.videoDetails.lengthSeconds) * 1000,
+      ),
+      durationSeconds: Number(info.videoDetails.lengthSeconds),
       bestThumbnail: {
-        url: info.video_details.thumbnails[0].url,
-        width: info.video_details.thumbnails[0].width,
-        height: info.video_details.thumbnails[0].height,
+        url: info.videoDetails.thumbnails[0].url,
+        width: info.videoDetails.thumbnails[0].width,
+        height: info.videoDetails.thumbnails[0].height,
       },
       author: {
-        name: info.video_details.channel?.name || throwExpression('No author'),
-        url: info.video_details.channel?.url || throwExpression('No author'),
+        name: info.videoDetails.author.name || throwExpression('No author'),
+        url: info.videoDetails.author.channel_url,
         channelID:
-          info.video_details.channel?.id || throwExpression('No author'),
+          info.videoDetails.author.id || throwExpression('No channel id'),
       },
     };
   }
