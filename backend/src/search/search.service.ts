@@ -35,6 +35,14 @@ export class SearchService {
         playlistID: params.get('list') || undefined,
       };
     }
+    // if url is a short
+    const [type, shortId] = location.pathname.slice(1).split('/');
+    if (type === 'shorts') {
+      return {
+        videoID: shortId,
+        playlistID: undefined,
+      };
+    }
     const videoID = params.get('v');
     const playlistID = params.get('list');
     return {
