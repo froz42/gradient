@@ -20,6 +20,7 @@
     background-color: #f5f5f5;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    flex-grow: 1;
     &:hover {
       transform: scale(1.05);
     }
@@ -32,11 +33,12 @@
     }
     .info {
       position: relative;
+      width: calc(100% - 5rem);
       margin-left: 0.7rem;
       .title {
         position: relative;
         height: 1rem;
-        width: 16rem;
+        width: calc(100% - 1rem);
         font-weight: 500;
         font-size: 0.8rem;
         display: block;
